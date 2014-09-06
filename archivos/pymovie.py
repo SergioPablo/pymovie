@@ -72,6 +72,7 @@ def crear_lista_intersectada_peliculas(lista_usuario_a, lista_usuario_b):
     conjunto_usuario_a = crear_conjunto_pelicula(lista_usuario_a)
     conjunto_usuario_b = crear_conjunto_pelicula(lista_usuario_b)
     lista_intersectada = list(conjunto_usuario_a&conjunto_usuario_b)
+    lista_intersectada.sort()
     return lista_intersectada
 #Esta función crea una lista con todos los puntajes intersecatados del usuario a y b, para funcionar necesita la lista intersectada
 def crear_lista_puntaje_intersectado(lista_peliculas_intersectadas, lista_usuario_a, lista_usuario_b):
@@ -82,25 +83,26 @@ def crear_lista_puntaje_intersectado(lista_peliculas_intersectadas, lista_usuari
         lista_puntaje_usuario_a.append(lista_usuario_a[1][indice_a])
         indice_b = lista_usuario_b[0].index(pelicula)
         lista_puntaje_usuario_b.append(lista_usuario_b[1][indice_b])
-    lista_nueva = [lista_puntaje_usuario_a, lista_puntaje_usuario_b]
-    return lista_nueva
+    return lista_puntaje_usuario_a, lista_puntaje_usuario_b
 
 
 ############################### ACÁ TERMINAN LAS FUNCIONES #############################################################
 #Empiezo creando la lista de puntaje
-lista_puntaje = crear_lista_puntaje('u.dat')
+lista_puntaje = crear_lista_puntaje('base.dat')
 
-correlacion = -10
+correlacion_b = -10
 usuario_b = ''
+correlacion_c = -10
 usuario_c = ''
-usuario = raw_input('Ingrese el id del usuario al cual quiere comparar: ')
+#usuario = raw_input('Ingrese el id del usuario al cual quiere comparar: ')
+#total_usuarios = int(raw_input('Ingrese el rango de usuarios en el cual quiere probar: '))
 
-lista_usuario_a = puntaje_pelicula('435', lista_puntaje)
-lista_usuario_b = puntaje_pelicula('254', lista_puntaje)
+
+
+
+lista_usuario_a = puntaje_pelicula('a', lista_puntaje)
+lista_usuario_b = puntaje_pelicula('b', lista_puntaje)
 lista_de_peliculas_ambos = crear_lista_intersectada_peliculas(lista_usuario_a,lista_usuario_b)
-lista_de_puntajes_ambos = crear_lista_puntaje_intersectado(lista_de_peliculas_ambos,lista_usuario_a,lista_usuario_b)
+lista_ptje_a, lista_ptje_b = crear_lista_puntaje_intersectado(lista_de_peliculas_ambos,lista_usuario_a,lista_usuario_b)
 
-print pearson(lista_de_puntajes_ambos[0],lista_de_puntajes_ambos[1],lista_usuario_a[1],lista_usuario_b[1])
-
-
-
+print pearson(lista_ptje_a, lista_ptje_b, lista_usuario_a[1],lista_usuario_b[1])
