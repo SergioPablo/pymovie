@@ -72,7 +72,6 @@ def crear_lista_intersectada_peliculas(lista_usuario_a, lista_usuario_b):
     conjunto_usuario_a = crear_conjunto_pelicula(lista_usuario_a)
     conjunto_usuario_b = crear_conjunto_pelicula(lista_usuario_b)
     lista_intersectada = list(conjunto_usuario_a&conjunto_usuario_b)
-    lista_intersectada.sort()
     return lista_intersectada
 #Esta función crea una lista con todos los puntajes intersecatados del usuario a y b, para funcionar necesita la lista intersectada
 def crear_lista_puntaje_intersectado(lista_peliculas_intersectadas, lista_usuario_a, lista_usuario_b):
