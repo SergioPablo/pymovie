@@ -141,7 +141,11 @@ usuario_correlacion_c= ''
 lista_restricciones = list()
 
 conjunto_intersectado = set('1')
-while len(conjunto_intersectado) < 3:
+id_mejor_pelicula = ''
+mejor_puntaje = 0
+print 'Lista usuario principal: ' + str(lista_usuario_a)
+print 'Buscando... \n'
+while mejor_puntaje < 4:
     for i in range(1, rango):
         if str(i) != usuario and str(i) not in lista_restricciones:
             if correlacion_b != 1:
@@ -168,35 +172,30 @@ while len(conjunto_intersectado) < 3:
 
     conjunto_intersectado = crear_conjunto_peliculas_no_vistas()
 
-print 'Lista usuario principal: ' + str(lista_usuario_a)
+
+    for pelicula in conjunto_intersectado:
+        puntaje_b = lista_usuario_b[1][lista_usuario_b[0].index(pelicula)]
+        puntaje_c = lista_usuario_c[1][lista_usuario_c[0].index(pelicula)]
+        puntaje_ponderado = (puntaje_b * correlacion_b + puntaje_c * correlacion_c)/(correlacion_b+correlacion_c)
+        if puntaje_ponderado > mejor_puntaje:
+            id_mejor_pelicula = pelicula
+            mejor_puntaje = puntaje_ponderado
+
+
+
+    nombre_mejor_pelicula = ''
+    for pelicula in lista_pelis:
+        if id_mejor_pelicula == pelicula[0]:
+            nombre_mejor_pelicula = pelicula[1]
+            break
+
+
 print 'Este es el conjunto de peliculas que el usuario no ha visto, pero que A y B sí han visto: ' + str(conjunto_intersectado)
 print 'Usuario A: ' + str(usuario_correlacion_b), 'Correlacion: ' + str(correlacion_b)
 print 'Lista A: ' + str(lista_usuario_b)
 print 'Usuario B: ' + str(usuario_correlacion_c), 'Correlacion: ' + str(correlacion_c)
 print 'Lista B: ' + str(lista_usuario_c)
-
-id_mejor_pelicula = ''
-mejor_puntaje = 0
-
-
-for pelicula in conjunto_intersectado:
-    puntaje_b = lista_usuario_b[1][lista_usuario_b[0].index(pelicula)]
-    puntaje_c = lista_usuario_c[1][lista_usuario_c[0].index(pelicula)]
-    puntaje_ponderado = (puntaje_b * correlacion_b + puntaje_c * correlacion_c)/(correlacion_b+correlacion_c)
-    if puntaje_ponderado > mejor_puntaje:
-        id_mejor_pelicula = pelicula
-        mejor_puntaje = puntaje_ponderado
-
-print id_mejor_pelicula
-print mejor_puntaje
-
-nombre_mejor_pelicula = ''
-for pelicula in lista_pelis:
-    if id_mejor_pelicula == pelicula[0]:
-        nombre_mejor_pelicula = pelicula[1]
-        break
-
-print 'La mejor película recomendada para este usuario es: ' + nombre_mejor_pelicula + 'con un puntaje de: ' + str(mejor_puntaje)
+print 'La mejor película recomendada para este usuario es: ' + nombre_mejor_pelicula + 'con un puntaje de: ' + str(round(mejor_puntaje,2))
 
 
 
