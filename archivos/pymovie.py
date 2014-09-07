@@ -107,8 +107,24 @@ def crear_conjunto_peliculas_no_vistas():
     lista_restricciones.append(usuario_correlacion_c)
     return conjunto_intersectado
 
+
+def crear_lista_peliculas(archivo_peliculas):
+    archivo = open(archivo_peliculas)
+    lista_peliculas = list()
+    for linea in archivo:
+        pelicula = linea.strip().split('(19')[0]
+        id = [int(s) for s in pelicula.split() if s.isdigit()]
+        nombre= pelicula.split(str(id[0]))[1]
+        agregar = [str(id[0]), nombre]
+        lista_peliculas.append(agregar)
+    lista_peliculas.sort()
+    lista_peliculas = np.array(lista_peliculas)
+    return lista_peliculas
+
+
 ############################### ACÁ TERMINAN LAS FUNCIONES #############################################################
 #PARÁMETROS OBLIGATORIOS
+lista_pelis = crear_lista_peliculas('movies.dat')
 lista_puntaje = crear_lista_puntaje('u.dat')
 usuario = raw_input('Ingrese id del usuario: ')
 rango = int(raw_input('Ingrese el rango de usuarios para comparar: '))
@@ -152,10 +168,36 @@ while len(conjunto_intersectado) < 3:
 
     conjunto_intersectado = crear_conjunto_peliculas_no_vistas()
 
-
+print 'Lista usuario principal: ' + str(lista_usuario_a)
 print 'Este es el conjunto de peliculas que el usuario no ha visto, pero que A y B sí han visto: ' + str(conjunto_intersectado)
 print 'Usuario A: ' + str(usuario_correlacion_b), 'Correlacion: ' + str(correlacion_b)
 print 'Lista A: ' + str(lista_usuario_b)
 print 'Usuario B: ' + str(usuario_correlacion_c), 'Correlacion: ' + str(correlacion_c)
 print 'Lista B: ' + str(lista_usuario_c)
 
+id_mejor_pelicula = ''
+mejor_puntaje = 0
+
+
+for pelicula in conjunto_intersectado:
+    puntaje_b = lista_usuario_b[1][lista_usuario_b[0].index(pelicula)]
+    puntaje_c = lista_usuario_c[1][lista_usuario_c[0].index(pelicula)]
+    puntaje_ponderado = (puntaje_b * correlacion_b + puntaje_c * correlacion_c)/(correlacion_b+correlacion_c)
+    if puntaje_ponderado > mejor_puntaje:
+        id_mejor_pelicula = pelicula
+        mejor_puntaje = puntaje_ponderado
+
+print id_mejor_pelicula
+print mejor_puntaje
+
+nombre_mejor_pelicula = ''
+for pelicula in lista_pelis:
+    if id_mejor_pelicula == pelicula[0]:
+        nombre_mejor_pelicula = pelicula[1]
+        break
+
+print 'La mejor película recomendada para este usuario es: ' + nombre_mejor_pelicula + 'con un puntaje de: ' + str(mejor_puntaje)
+
+
+
+# Probar con usuario 200 y Rango 800
