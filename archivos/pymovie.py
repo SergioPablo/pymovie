@@ -202,4 +202,3 @@ print 'La mejor película recomendada para este usuario es: ' + nombre_mejor_pel
 
 
 
-# Probar con usuario 200 y Rango 800
