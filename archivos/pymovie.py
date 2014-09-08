@@ -128,6 +128,7 @@ lista_pelis = crear_lista_peliculas('movies.dat')
 lista_puntaje = crear_lista_puntaje('u.dat')
 usuario = raw_input('Ingrese id del usuario: ')
 rango = int(raw_input('Ingrese el rango de usuarios para comparar: '))
+puntaje_minimo = float(raw_input('Ingresa el puntaje minimo, ten en cuenta que entre más puntaje, más puede ser la demora : '))
 lista_usuario_a = lista_usuario(usuario)
 
 # A Continuación se buscará el primer usuario más parecido
@@ -145,7 +146,9 @@ id_mejor_pelicula = ''
 mejor_puntaje = 0
 print 'Lista usuario principal: ' + str(lista_usuario_a)
 print 'Buscando... \n'
-while mejor_puntaje < 4:
+while mejor_puntaje <= puntaje_minimo:
+    correlacion_b = 0
+    correlacion_c = 0
     for i in range(1, rango):
         if str(i) != usuario and str(i) not in lista_restricciones:
             if correlacion_b != 1:
@@ -195,7 +198,7 @@ print 'Usuario A: ' + str(usuario_correlacion_b), 'Correlacion: ' + str(correlac
 print 'Lista A: ' + str(lista_usuario_b)
 print 'Usuario B: ' + str(usuario_correlacion_c), 'Correlacion: ' + str(correlacion_c)
 print 'Lista B: ' + str(lista_usuario_c)
-print 'La mejor película recomendada para este usuario es: ' + nombre_mejor_pelicula + 'con un puntaje de: ' + str(round(mejor_puntaje,2))
+print 'La mejor película recomendada para este usuario es: ' + nombre_mejor_pelicula + 'con un puntaje de: ' + str(round(mejor_puntaje,1))
 
 
 
